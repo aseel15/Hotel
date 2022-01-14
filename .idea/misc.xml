@@ -4,9 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/drawable-anydpi/ic_in.xml" value="0.11666666666666667" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/drawable-anydpi/ic_toiletries.xml" value="0.1421875" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1421875" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1421875" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/layout/activity_detail.xml" value="0.1816123188405797" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/layout/activity_main.xml" value="0.1816123188405797" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/layout/activity_service_customer.xml" value="0.136" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/layout/card_captioned_image.xml" value="0.1" />
+        <entry key="..\:/Users/DELL/AndroidStudioProjects/Hotel/app/src/main/res/layout/custom_layout_dropdown.xml" value="0.10400000000000001" />
       </map>
     </option>
   </component>

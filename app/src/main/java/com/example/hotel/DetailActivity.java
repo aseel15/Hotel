@@ -24,7 +24,10 @@ import com.example.hotel.model.Room;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +73,38 @@ public class DetailActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arr);
         listView.setAdapter(arrayAdapter);
     }
+    public Date formatDate(String date){
+        String[]split=date.split("-");
+        String readyFormat="";
+        for(int i=split.length-1;i>=0;i--){
+            if(split[i].length()==1)
+                split[i]="0"+split[i];
+
+            readyFormat+=split[i];
+            if(i!=0)
+                readyFormat+="-";
+        }
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        Date d1=null;
+        try {
+            d1 = sdf.parse(readyFormat);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d1;
+
+
+    }
+    public int calculateDays(){
+        Date dateIn=formatDate(dateCheckIn);
+        Date dateOut=formatDate(dateCheckOut);
+        long date1InMs = dateIn.getTime();
+        long date2InMs = dateOut.getTime();
+        long timeDif=date2InMs-date2InMs;
+        int days= (int) (timeDif / (1000 * 60 * 60* 24));
+        textTry.setText(days+"");
+        return days;
+    }
     public void postData(){
         String url="http://10.0.2.2:80/RoomDataBase/reserveRoom.php";
         RequestQueue queue = Volley.newRequestQueue(DetailActivity.this);
@@ -77,7 +112,7 @@ public class DetailActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                textTry.setText(response);
+
                /* JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response);
@@ -94,7 +129,7 @@ public class DetailActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                textTry.setText(error.getMessage());
+                //textTry.setText(error.getMessage());
                 Toast.makeText(DetailActivity.this,
                         "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
             }
@@ -107,13 +142,14 @@ public class DetailActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Room room=getRoomObject(roomNumber);
                 Map<String, String> params = new HashMap<String, String>();
+                int days= calculateDays();
 
                 params.put("roomsID", roomNumber+"");
                 //by shared preference
                 params.put("userId", "1");
                 params.put("check_In", dateCheckIn);
                 params.put("check_Out",dateCheckOut);
-                params.put("totalPrice",room.getPrice()+"");
+                params.put("totalPrice",(days*room.getPrice())+"");
 
                 return params;
             }
