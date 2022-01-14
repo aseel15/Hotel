@@ -270,7 +270,8 @@ public class MainActivity extends AppCompatActivity {
 
                    }
                     else {
-                        roomsFiltered.add(rooms.get(i));
+                        if(rooms.get(i).getRoomType().equalsIgnoreCase(roomTypeTxt))
+                             roomsFiltered.add(rooms.get(i));
                     }
                 }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,12 +34,15 @@ public class DetailActivity extends AppCompatActivity {
     String dateCheckOut;
     List<Room>roomsList;
     int roomNumber;
+    TextView textTry;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
+        textTry=findViewById(R.id.txtTry);
         String item = intent.getStringExtra("roomNum");
         dateCheckIn=intent.getStringExtra("checkInDate");
         dateCheckOut=intent.getStringExtra("checkOutDate");
@@ -69,23 +73,28 @@ public class DetailActivity extends AppCompatActivity {
     public void postData(){
         String url="http://10.0.2.2:80/RoomDataBase/reserveRoom.php";
         RequestQueue queue = Volley.newRequestQueue(DetailActivity.this);
-        StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                JSONObject jsonObject = null;
+                textTry.setText(response);
+               /* JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response);
+                    textTry.setText(response);
                     Toast.makeText(DetailActivity.this,
                             jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
+                    textTry.setText("the e = "+e.getMessage());
                     e.printStackTrace();
-                }
-                // on below line we are displaying a success toast message.
+                }*/
+
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                textTry.setText(error.getMessage());
                 Toast.makeText(DetailActivity.this,
                         "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
             }
@@ -96,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
             }
             @Override
             protected Map<String, String> getParams() {
-
+                Room room=getRoomObject(roomNumber);
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("roomsID", roomNumber+"");
@@ -104,7 +113,7 @@ public class DetailActivity extends AppCompatActivity {
                 params.put("userId", "1");
                 params.put("check_In", dateCheckIn);
                 params.put("check_Out",dateCheckOut);
-                params.put("totalPrice",roomsList.get(roomNumber).getPrice()+"");
+                params.put("totalPrice",room.getPrice()+"");
 
                 return params;
             }
@@ -120,6 +129,7 @@ public class DetailActivity extends AppCompatActivity {
                     "You should enter check in & check out date", Toast.LENGTH_SHORT).show();
         }
         else{
+
             //call method to post it to database
             postData();
         }
