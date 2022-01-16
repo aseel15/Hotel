@@ -59,16 +59,15 @@ public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.
 
         CardView cardView = holder.cardView;
         ImageView img = (ImageView) cardView.findViewById(R.id.imageEm);
+        Glide.with(context).load("http://10.0.2.2:80/RoomDataBase/images/"+rooms.get(position).getImageURL()+".jpg").into(img);
 
-
-
-        Glide.with(context).load(getImage("@drawable/"+/*images[position])*/rooms.get(position).getImageURL())).into(img);
         TextView txtRoomType = (TextView)cardView.findViewById(R.id.roomTypeTxtEm);
-        txtRoomType.setText("Room Type : "+/*roomTypes[position]*/rooms.get(position).getRoomType());
+        txtRoomType.setText("Room Type : "+rooms.get(position).getRoomType());
+
         TextView txtPrice = (TextView)cardView.findViewById(R.id.priceTxtEm);
         txtPrice.setText("Price : "+rooms.get(position).getPrice());
-        Button detailButton=(Button) cardView.findViewById(R.id.btnDetailEm);
 
+        Button detailButton=(Button) cardView.findViewById(R.id.btnDetailEm);
         detailButton.setOnClickListener(view -> {
             Intent intent = new Intent(detailButton.getContext(), DetailActivityEm.class);
             intent.putExtra("roomNum",rooms.get(position).getId()+"");

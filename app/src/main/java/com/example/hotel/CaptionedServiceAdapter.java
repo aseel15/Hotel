@@ -1,9 +1,10 @@
 package com.example.hotel;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,43 +19,40 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotel.model.Room;
 import com.example.hotel.model.ServiceFromTable;
-import com.example.hotel.model.ServiceItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServiceAdapter.ViewHolder>{
     private Button[]acceptButtons;
     private Button[]declineButtons;
-    private ArrayList<String> services;
+    private ArrayList<ServiceFromTable> services;
     ArrayList<ServiceFromTable>servicesFromTable;
     private int id;
     private int roomIdUser;
+    private int priceInc;
     Context context;
     private RequestQueue queue;
     private static final String BASE_URL = "http://10.0.2.2:80/RoomDataBase/getServices.php";
+    CaptionedServiceAdapter adapter;
 
-    public CaptionedServiceAdapter(Context context, ArrayList<String> services, int id, int roomIdUser) {
+    public CaptionedServiceAdapter(Context context, ArrayList<ServiceFromTable> services) {
         this.acceptButtons = acceptButtons;
         this.declineButtons = declineButtons;
         this.services = services;
-        this.id = id;
-        this.roomIdUser=roomIdUser;
         this.context=context;
 
         queue = Volley.newRequestQueue(context);
         servicesFromTable=new ArrayList<>();
-       // getServiceTable();
+
     }
+
 
     @NonNull
     @Override
@@ -63,32 +61,32 @@ public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServi
                 parent,
                 false);
 
-        return new CaptionedServiceAdapter.ViewHolder(v);
+        return new CaptionedServiceAdapter.ViewHolder(v/*,adapter*/);
     }
     TextView serviceName;
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         serviceName=(TextView)cardView.findViewById(R.id.serviceName);
-
-        //serviceName.setText(services.get(position));
+        roomIdUser=services.get(position).getRoomId();
+        id=services.get(position).getUserId();
+        serviceName.setText(services.get(position).getServiceName());
         Button acceptButton=(Button) cardView.findViewById(R.id.btnAccept);
         //if he click accept the service will be added to the database
         acceptButton.setOnClickListener(view -> {
-            getServiceTable(id);
-           // serviceName.setText(servicesFromTable.size()+"");
-           // addServices(/*id,roomIdUser,5*/);
+            getServiceTable();
+            //delete record from serviceTableToEmployee
+            deleteService(services.get(position).getId(),roomIdUser,id,services.get(position).getServiceName(),services.get(position).getTotalPrice());
+            services.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, services.size());
+            holder.itemView.setVisibility(View.GONE);
         });
-        Button declineButton=(Button) cardView.findViewById(R.id.btnDecline);
-        //the user should get notification about the declined service
-        declineButton.setOnClickListener(view -> {
-            getServiceTable(id);
 
 
-        });
     }
 
-    public void getServiceTable(int id){
+    public void getServiceTable(){
 
         StringRequest request = new StringRequest(Request.Method.GET, BASE_URL,
 
@@ -112,9 +110,10 @@ public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServi
                                 if(id==servicesFromTable.get(i).getUserId())
                                  if(roomIdUser==servicesFromTable.get(i).getRoomId()) {
                                      int idService=servicesFromTable.get(i).getId();
-                                     updateService(idService,servicesFromTable.get(i).getTotalPrice());
+                                     priceInc=servicesFromTable.get(i).getTotalPrice()+5;
+                                     serviceName.setText("price "+idService);
+                                     updateService(idService,priceInc);
                                     //call updateService();
-                                    serviceName.setText("enter to update");
                                     flag=true;
                                     break;
                                 }
@@ -180,7 +179,34 @@ public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServi
     }
     public void updateService(int id,int totalPrice){
         //if the user id is in the table then update his price
-        String url="http://10.0.2.2:80/RoomDataBase/updateService.php?id="+id;
+       // serviceName.setText("id ser "+id);
+        String url="http://10.0.2.2:80/RoomDataBase/updateService.php?id="+id+"&totalPrice="+totalPrice;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest request=new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //textTry.setText(error.getMessage());
+
+                       // serviceName.setText("id ser "+totalPrice);
+                        Toast.makeText(context,
+                                response, Toast.LENGTH_LONG).show();
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //textTry.setText(error.getMessage());
+                Toast.makeText(context,
+                        "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        queue.add(request);
+    }
+    public void deleteService(int idd, int roomI,int userI,String nn, int pp){
+        String url="http://10.0.2.2:80/RoomDataBase/deleteService.php";
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest request=new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -205,13 +231,17 @@ public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServi
             protected Map<String, String> getParams() {
                 //ServiceFromTable service=new ServiceFromTable(userId,roomId,totalPrice);
                 Map<String, String> params = new HashMap<>();
-
-                int newPrice=totalPrice+5;
-                params.put("totalPrice", newPrice+"");
+                //by shared preference
+                params.put("id",idd+"");
+                params.put("roomId", roomI+"");
+                params.put("userId", userI+"");
+                params.put("serviceName",nn+"");
+                params.put("totalPrice", pp+"");
                 return params;
             }
         };
         queue.add(request);
+
     }
 
     @Override
@@ -219,10 +249,13 @@ public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServi
         return services.size();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
+
         private CardView cardView;
+
         public ViewHolder(CardView cardView){
             super(cardView);
             this.cardView = cardView;
+
 
         }
 

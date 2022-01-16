@@ -42,6 +42,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private RequestQueue queue;
@@ -65,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         queue1 = Volley.newRequestQueue(this);
         populateAllData();
+        removeDeadLineCheckOut();
         populateReservedRooms();
+
 
 
     }
@@ -123,6 +127,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+    }
+    public void removeDeadLineCheckOut(){
+        String url="http://10.0.2.2:80/RoomDataBase/deleteReservedRoom.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        StringRequest request=new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //textTry.setText(error.getMessage());
+                Toast.makeText(MainActivity.this,
+                        "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public String getBodyContentType(){
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                //ServiceFromTable service=new ServiceFromTable(userId,roomId,totalPrice);
+                Map<String, String> params = new HashMap<>();
+                //by shared preference
+
+                params.put("check_Out",date);
+                return params;
+            }
+        };
+        queue.add(request);
+
     }
     public void populateReservedRooms(){
 
@@ -243,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         Date inUserDate=formatDate(checkInTxt);
         Date outUserDate=formatDate(checkOutTxt);
         ArrayList<Room>roomsFiltered=new ArrayList<>();
-
+       //checkIn.setText(String.valueOf(inUserDate));
 
 
         if(!roomTypeTxt.equalsIgnoreCase("Room Type")&&checkInTxt!=null&&checkOutTxt!=null) {
@@ -251,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
             if (inUserDate.compareTo(outUserDate) < 0) {
                 //لازم افحص اذا الديت اللي دخلته بعد الكرنت ديت او يساويه
                 for (int i = 0; i < rooms.size(); i++) {
-                    if(!reservedRoomHashMap.isEmpty())
+                   // if(!reservedRoomHashMap.isEmpty())
                         if (reservedRoomHashMap.containsKey(rooms.get(i).getId())) {
                             ReservedRoom reservedRoom = reservedRoomHashMap.get(rooms.get(i).getId());
                             Date inReservedDate = formatDate(reservedRoom.getCheck_In());
@@ -287,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
             if (inUserDate.compareTo(outUserDate) < 0) {
                 //لازم افحص اذا الديت اللي دخلته بعد الكرنت ديت او يساويه
                 for (int i = 0; i < rooms.size(); i++) {
-                    if(!reservedRoomHashMap.isEmpty())
+                  //  if(!reservedRoomHashMap.isEmpty())
                         if (reservedRoomHashMap.containsKey(rooms.get(i).getId())) {
                             ReservedRoom reservedRoom = reservedRoomHashMap.get(rooms.get(i).getId());
                             Date inReservedDate = formatDate(reservedRoom.getCheck_In());

@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceActivityCustomer extends AppCompatActivity {
 
@@ -39,8 +41,8 @@ public class ServiceActivityCustomer extends AppCompatActivity {
     ArrayAdapter<String>roomIdAdapter;
     String roomIdChosen;
     TextView textView;
-    String n=String.valueOf(1);
-    private String BASE_URL = "http://10.0.2.2/RoomDataBase/getRoomId.php?userId=" + n;
+    String n=String.valueOf(2);
+    private String BASE_URL = "http://10.0.2.2:80/RoomDataBase/getRoomId.php?userId=" + n;
     private RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,15 +156,56 @@ public class ServiceActivityCustomer extends AppCompatActivity {
     });
         queue.add(request);
     }
+    public void addServiceToTable(){
+        String url="http://10.0.2.2:80/RoomDataBase/addServiceToEmployee.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest request=new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(ServiceActivityCustomer.this,
+                                "Your Request Sent Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //textTry.setText(error.getMessage());
+                Toast.makeText(ServiceActivityCustomer.this,
+                        "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public String getBodyContentType(){
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                //ServiceFromTable service=new ServiceFromTable(userId,roomId,totalPrice);
+                Map<String, String> params = new HashMap<>();
+                //by shared preference
+
+                params.put("roomId", roomIdChosen+"");
+                params.put("userId", n+"");
+                params.put("serviceName",selectedServices.toString());
+                params.put("price", "6");
+                return params;
+            }
+        };
+        queue.add(request);
+    }
 
 
     public void btnRequestClick(View view) {
-        Intent intent= new Intent(this,AcceptServiceByEmployee.class);
+        addServiceToTable();
+       /* Intent intent= new Intent(this,AcceptServiceByEmployee.class);
         //get the id from the shared preference
          intent.putExtra("userId","1");
          intent.putExtra("roomId",roomIdChosen);
          intent.putExtra("userRequest",selectedServices);
-         startActivity(intent);
+         startActivity(intent);*/
+        //add to the service table to appear in the employee screen
+
 
 
     }

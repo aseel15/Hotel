@@ -56,7 +56,6 @@ public class DetailActivityEm extends AppCompatActivity {
         Intent intent = getIntent();
         textTry=findViewById(R.id.txtTryEm);
         edtUserId=findViewById(R.id.edtUserId);
-        textTry.setText("activity_detail_em");
         String item = intent.getStringExtra("roomNum");
         dateCheckIn=intent.getStringExtra("checkInDate");
         dateCheckOut=intent.getStringExtra("checkOutDate");

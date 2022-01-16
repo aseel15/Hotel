@@ -4,7 +4,16 @@ public class ServiceFromTable {
     int id;
     int userId;
     int roomId;
+    String serviceName;
     int totalPrice;
+
+    public ServiceFromTable(int id, int userId, int roomId, String serviceName, int totalPrice) {
+        this.id = id;
+        this.userId = userId;
+        this.roomId = roomId;
+        this.serviceName = serviceName;
+        this.totalPrice = totalPrice;
+    }
 
     public ServiceFromTable(int id, int roomId, int userId, int totalPrice) {
         this.id = id;
@@ -41,6 +50,14 @@ public class ServiceFromTable {
 
     public void setRoomId(int roomId) {
         this.roomId = roomId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public int getTotalPrice() {
