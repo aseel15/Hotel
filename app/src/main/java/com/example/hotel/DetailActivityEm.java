@@ -1,9 +1,9 @@
 package com.example.hotel;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -11,19 +11,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotel.model.ReservedRoom;
 import com.example.hotel.model.Room;
-import com.google.gson.Gson;
 
-
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,31 +31,39 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivityEm extends AppCompatActivity {
+
+    private RequestQueue queue;
+    private static final String BASE_URL = "http://10.0.2.2:80/RoomDataBase/getUserId.php";
     String dateCheckIn;
     String dateCheckOut;
-    List<Room>roomsList;
+    List<Room> roomsList;
     int roomNumber;
     TextView textTry;
+    ArrayList<Integer>userIds;
     int days;
-
-
+    EditText edtUserId;
+    int idAdded;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail_em);
+
+
+        queue=Volley.newRequestQueue(this);
+        userIds=new ArrayList<>();
         Intent intent = getIntent();
-        textTry=findViewById(R.id.txtTry);
+        textTry=findViewById(R.id.txtTryEm);
+        edtUserId=findViewById(R.id.edtUserId);
+        textTry.setText("activity_detail_em");
         String item = intent.getStringExtra("roomNum");
         dateCheckIn=intent.getStringExtra("checkInDate");
         dateCheckOut=intent.getStringExtra("checkOutDate");
         roomNumber = Integer.parseInt(item);
         roomsList=(List<Room>) getIntent().getSerializableExtra("arrayList");
         populateData(roomNumber);
-
-
+        populateUser();
     }
     public Room getRoomObject(int objectNumber){
         for(int i=0;i<roomsList.size();i++)
@@ -69,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     public void populateData(int roomNum){
 
         Room room=getRoomObject(roomNum);
-        ListView listView=findViewById(R.id.listView);
+        ListView listView=findViewById(R.id.listViewEm);
         ArrayList<String> arr=new ArrayList<>();
         arr.add("Room Number : "+room.getId());
         arr.add("Room Type : "+room.getRoomType());
@@ -119,17 +124,16 @@ public class DetailActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request=new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                 days= calculateDays();
-                //textTry.setText(response);
+                    @Override
+                    public void onResponse(String response) {
+                       days=calculateDays();
 
-            }
-        }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 textTry.setText(error.getMessage());
-                Toast.makeText(DetailActivity.this,
+                Toast.makeText(DetailActivityEm.this,
                         "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
             }
         }){
@@ -142,10 +146,9 @@ public class DetailActivity extends AppCompatActivity {
                 Room room=getRoomObject(roomNumber);
                 Map<String, String> params = new HashMap<>();
 
-
                 params.put("roomsID", roomNumber+"");
                 //by shared preference
-                params.put("userId", "2");
+                params.put("userId", idAdded+"");
                 params.put("check_In", dateCheckIn);
                 params.put("check_Out",dateCheckOut);
                 params.put("totalPrice",(days*room.getPrice())+"");
@@ -160,7 +163,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void btnReserveOnClick(View view) {
         if(dateCheckIn==null||dateCheckOut==null){
-            Toast.makeText(DetailActivity.this,
+            Toast.makeText(DetailActivityEm.this,
                     "You should enter check in & check out date", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -168,5 +171,65 @@ public class DetailActivity extends AppCompatActivity {
             //call method to post it to database
             postData();
         }
+    }
+    public void populateUser(){
+
+        StringRequest request=new StringRequest(Request.Method.GET, BASE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray userIdList=new JSONArray(response);
+                            for(int i=0;i< userIdList.length();i++){
+                                JSONObject jsonObject= userIdList.getJSONObject(i);
+                                int user= jsonObject.getInt("id");
+                                userIds.add(user);
+                            }
+                           // populateUserToList();
+
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DetailActivityEm.this, error.toString(),
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        queue.add(request);
+    }
+    public ArrayList<Integer>populateUserToList(){
+        return userIds;
+    }
+
+
+    public void readText(){
+
+    }
+    public void btnEnterOnClick(View view) {
+
+
+        String s = String.valueOf(edtUserId.getText());
+        int uId=Integer.parseInt(s);
+        boolean flag=false;
+        for(int i=0;i<userIds.size();i++){
+            if(uId== userIds.get(i)){
+                idAdded=uId;
+                flag=true;
+                textTry.setText("true");
+                break;
+            }
+        }
+        if(!flag){
+            textTry.setText("false");
+            //add user
+        }
+
+
     }
 }

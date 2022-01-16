@@ -14,16 +14,22 @@
         android:theme="@style/Theme.Hotel"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AcceptServiceByEmployee"
+            android:name=".DetailActivityEm"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailActivity"
+            android:name=".AcceptServiceByEmployee"
             android:exported="false" />
         <activity
             android:name=".ServiceActivityCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmployeeResRoom"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
