@@ -92,20 +92,23 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="2dp"
             android:minHeight="48dp"
+            android:paddingBottom="10dp"
             android:prompt="@string/hint_resource"
             android:spinnerMode="dialog"
+            android:textAlignment="center"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/checkOutIcEm"
-            android:layout_gravity="right"
             android:layout_alignParentRight="true"
+            android:layout_gravity="right"
             android:layout_marginTop="6dp"
             android:layout_marginRight="20dp"
+            android:onClick="btnNextOnClick"
             android:text="Next"
-            android:onClick="btnNextOnClick"/>
+            app:backgroundTint="#10B5E3" />
 
 
     </RelativeLayout>

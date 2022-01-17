@@ -2,5 +2,7 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/amarante</item>
+        <item>@font/andika</item>
+        <item>@font/archivo_black</item>
     </array>
 </resources>
