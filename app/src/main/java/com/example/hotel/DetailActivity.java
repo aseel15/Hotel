@@ -123,6 +123,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(String response) {
                  days= calculateDays();
                 //textTry.setText(response);
+                Toast.makeText(DetailActivity.this,
+                        "Successful Reservation", Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {

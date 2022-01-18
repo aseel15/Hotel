@@ -14,17 +14,20 @@
         android:theme="@style/Theme.Hotel"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".APIActivity"
+            android:exported="true" />
+        <activity
             android:name=".DetailActivityEm"
             android:exported="false" />
         <activity
             android:name=".EmployeeResRoom"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AcceptServiceByEmployee"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ServiceActivityCustomer"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
