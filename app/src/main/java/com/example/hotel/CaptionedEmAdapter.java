@@ -3,19 +3,29 @@ package com.example.hotel;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.hotel.model.Room;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.ViewHolder>{
     private Button[]detailButtons;
@@ -78,6 +88,49 @@ public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.
             detailButton.getContext().startActivity(intent);
 
         });
+        Button deleteButton=(Button) cardView.findViewById(R.id.btnDeleteEm);
+        deleteButton.setOnClickListener(view -> {
+            deleteRoom(rooms.get(position).getId());
+            rooms.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, rooms.size());
+            holder.itemView.setVisibility(View.GONE);
+        });
+
+    }
+    public void deleteRoom(int roomId){
+        String url="http://10.0.2.2:80/RoomDataBase/deleteRoomByEm.php";
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest request=new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //textTry.setText(error.getMessage());
+                Toast.makeText(context,
+                        "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public String getBodyContentType(){
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                //ServiceFromTable service=new ServiceFromTable(userId,roomId,totalPrice);
+                Map<String, String> params = new HashMap<>();
+                //by shared preference
+                params.put("id",roomId+"");
+
+                return params;
+            }
+        };
+        queue.add(request);
 
     }
 

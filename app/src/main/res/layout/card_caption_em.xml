@@ -14,15 +14,15 @@
         android:layout_height="match_parent">
         <ImageView
             android:layout_width="130dp"
-            android:layout_height="175dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="190dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:id="@+id/imageEm"/>
         <LinearLayout
             android:layout_width="225dp"
-            android:layout_height="175dp"
+            android:layout_height="190dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -49,12 +49,22 @@
                 android:id="@+id/btnDetailEm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="60dp"
-                android:layout_marginBottom="20dp"
+
                 android:minHeight="48dp"
 
                 android:text="Detail"
+                card_view:backgroundTint="#10B5E3"
+                tools:ignore="TouchTargetSizeCheck" />
+            <Button
+                android:id="@+id/btnDeleteEm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="60dp"
+                android:minHeight="48dp"
+                android:text="Delete"
                 card_view:backgroundTint="#10B5E3"
                 tools:ignore="TouchTargetSizeCheck" />
 

@@ -106,7 +106,7 @@ public class CaptionedServiceAdapter extends RecyclerView.Adapter<CaptionedServi
                             boolean flag=false;
 
                             for(int i=0;i<servicesFromTable.size();i++){
-                               // serviceName.append("exi"+servicesFromTable.get(i).getRoomId());
+
                                 if(id==servicesFromTable.get(i).getUserId())
                                  if(roomIdUser==servicesFromTable.get(i).getRoomId()) {
                                      int idService=servicesFromTable.get(i).getId();

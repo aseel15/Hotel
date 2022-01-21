@@ -94,6 +94,7 @@
             android:layout_marginRight="20dp"
             android:onClick="btnRequestClick"
             android:text="request services"
+            android:textColor="#FFFFFF"
             app:backgroundTint="#10B5E3" />
 
     </LinearLayout>

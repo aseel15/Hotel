@@ -54,7 +54,6 @@ public class EmployeeResRoom extends AppCompatActivity {
 
         recycler = findViewById(R.id.room_recyclerEm);
         checkIn=findViewById(R.id.edtCheckInEm);
-        checkIn.setText("activity_employee_res_room");
         checkOut = findViewById(R.id.edtCheckOutEm);
         queue = Volley.newRequestQueue(this);
         queue1 = Volley.newRequestQueue(this);
@@ -134,7 +133,7 @@ public class EmployeeResRoom extends AppCompatActivity {
                                 int totalPrice=jsonObject.getInt("totalPrice");
                                 reservedRoomHashMap.put(roomID,new ReservedRoom(roomID,check_In,check_Out));
                             }
-                            //checkIn.setText(response);
+
                         } catch (JSONException e) {
                             // checkIn.setText(response);
                             e.printStackTrace();
@@ -315,5 +314,8 @@ public class EmployeeResRoom extends AppCompatActivity {
             Toast.makeText(EmployeeResRoom.this, "Invalid Date",Toast.LENGTH_SHORT);
         }
 
+    }
+
+    public void btnAddOnClick(View view) {
     }
 }

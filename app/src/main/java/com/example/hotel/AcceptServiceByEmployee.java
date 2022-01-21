@@ -36,13 +36,7 @@ public class AcceptServiceByEmployee extends AppCompatActivity {
         setContentView(R.layout.activity_accept_service_by_employee);
         queue = Volley.newRequestQueue(this);
         recyclerView=findViewById(R.id.service_recycler);
-       /* Intent intent = getIntent();
-        services=(ArrayList<String>) intent.getSerializableExtra("userRequest");
-        String idStr=intent.getStringExtra("userId");
-        id=Integer.parseInt(idStr);
-        roomIdUser=Integer.parseInt(intent.getStringExtra("roomId"));
-        recyclerView=findViewById(R.id.service_recycler);*/
-        //services=new ArrayList<>();
+
         getServices();
 
     }
@@ -64,24 +58,7 @@ public class AcceptServiceByEmployee extends AppCompatActivity {
                                 services.add(new ServiceFromTable(id,roomId,userId,serviceName,price));
                             }
                             populateServices();
-                          /*  boolean flag=false;
 
-                            for(int i=0;i<servicesFromTable.size();i++){
-                                // serviceName.append("exi"+servicesFromTable.get(i).getRoomId());
-                                if(id==servicesFromTable.get(i).getUserId())
-                                    if(roomIdUser==servicesFromTable.get(i).getRoomId()) {
-                                        int idService=servicesFromTable.get(i).getId();
-                                        updateService(idService,servicesFromTable.get(i).getTotalPrice());
-                                        //call updateService();
-                                        serviceName.setText("enter to update");
-                                        flag=true;
-                                        break;
-                                    }
-                            }
-                            if(!flag) {
-                                addServices();
-                                serviceName.setText("enter to add");
-                            }*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -97,8 +74,7 @@ public class AcceptServiceByEmployee extends AppCompatActivity {
         queue.add(request);
     }
     public void populateServices(){
-       /* TextView text=findViewById(R.id.textTT);
-        text.setText("size = "+services.size());*/
+
         recyclerView.setLayoutManager(new LinearLayoutManager(AcceptServiceByEmployee.this));
         CaptionedServiceAdapter adapter = new CaptionedServiceAdapter(AcceptServiceByEmployee.this,services);
 

@@ -30,7 +30,6 @@ public class APIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.api_activity_main);
         recycler=findViewById(R.id.api_recycler);
-
         imagesList=new ArrayList<>();
 
 
@@ -81,7 +80,6 @@ public class APIActivity extends AppCompatActivity {
 
                     }
                 });
-       // MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
     }
@@ -127,7 +125,6 @@ public class APIActivity extends AppCompatActivity {
 
                     }
                 });
-        // MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
     }
@@ -174,7 +171,6 @@ public class APIActivity extends AppCompatActivity {
 
                     }
                 });
-        // MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
     }

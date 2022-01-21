@@ -99,16 +99,29 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
+            android:id="@+id/btnNext"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/checkOutIcEm"
-            android:layout_alignParentRight="true"
             android:layout_gravity="right"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="6dp"
-            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/spinRoomEm"
             android:onClick="btnNextOnClick"
             android:text="Next"
+            android:textColor="#FFFFFF"
             app:backgroundTint="#10B5E3" />
+        <!--Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/checkOutIcEm"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@id/btnNext"
+            android:onClick="btnAddOnClick"
+            android:text="Add Room"
+            app:backgroundTint="#10B5E3" /-->
 
 
     </RelativeLayout>

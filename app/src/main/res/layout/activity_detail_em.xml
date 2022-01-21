@@ -61,6 +61,7 @@
                 android:fontFamily="@font/amarante"
                 android:onClick="btnEnterOnClick"
                 android:text="Enter"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:backgroundTint="#10B5E3" />
 
@@ -86,6 +87,7 @@
             android:fontFamily="@font/amarante"
             android:onClick="btnReserveOnClick"
             android:text="Reserve"
+            android:textColor="#FFFFFF"
             app:backgroundTint="#10B5E3" />
 
     </LinearLayout>
