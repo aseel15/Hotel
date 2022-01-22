@@ -22,9 +22,17 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.hotel.model.Room;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.ViewHolder>{
@@ -34,6 +42,7 @@ public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.
     List<Room> rooms;
     String dateCheckIn;
     String dateCheckOut;
+    public ArrayList<String> conflictDeleted=new ArrayList<>();
 
     public CaptionedEmAdapter(Context context,List<Room>rooms, String dateCheckIn, String dateCheckOut){
         this.context=context;
@@ -63,6 +72,8 @@ public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.
 
         return drawableResourceId;
     }
+    TextView txtPrice;
+    int size=0;
     @Override
     public void onBindViewHolder(CaptionedEmAdapter.ViewHolder holder, int position) {
 
@@ -74,8 +85,10 @@ public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.
         TextView txtRoomType = (TextView)cardView.findViewById(R.id.roomTypeTxtEm);
         txtRoomType.setText("Room Type : "+rooms.get(position).getRoomType());
 
-        TextView txtPrice = (TextView)cardView.findViewById(R.id.priceTxtEm);
+        txtPrice = (TextView)cardView.findViewById(R.id.priceTxtEm);
         txtPrice.setText("Price : "+rooms.get(position).getPrice());
+
+
 
         Button detailButton=(Button) cardView.findViewById(R.id.btnDetailEm);
         detailButton.setOnClickListener(view -> {
@@ -89,14 +102,68 @@ public class CaptionedEmAdapter extends RecyclerView.Adapter<CaptionedEmAdapter.
 
         });
         Button deleteButton=(Button) cardView.findViewById(R.id.btnDeleteEm);
+        populateReservedRooms(rooms.get(position).getId());
         deleteButton.setOnClickListener(view -> {
-            deleteRoom(rooms.get(position).getId());
-            rooms.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, rooms.size());
-            holder.itemView.setVisibility(View.GONE);
+
+            if(size==0) {
+                Toast.makeText(context, "delete room",
+                        Toast.LENGTH_SHORT).show();
+               // deleteRoom(rooms.get(position).getId());
+               /* rooms.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, rooms.size());
+                holder.itemView.setVisibility(View.GONE);*/
+            }
+            else{
+               // populateReservedRooms(rooms.get(position).getId());
+                Toast.makeText(context, "The room is reserved !",
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
+    }
+    public void populateReservedRooms(int roomId){
+        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String BASE_URL = "http://10.0.2.2:80/FinalProject/selectRRoomsAfterNow.php?roomsID=" + roomId+"&check_Out="+date;
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+
+        StringRequest request = new StringRequest(Request.Method.GET, BASE_URL,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray roomList=new JSONArray(response);
+                            for(int i=0;i<roomList.length();i++){
+                                JSONObject jsonObject= roomList.getJSONObject(i);
+                                int id = jsonObject.getInt("roomsID");
+                                conflictDeleted.add(id+"");
+                            }
+                            size=conflictDeleted.size();
+                            Toast.makeText(context, "size = "+conflictDeleted.size(),
+                                    Toast.LENGTH_LONG).show();
+
+                        } catch (JSONException e) {
+
+                            /*txtPrice.setText("Price : "+e.getMessage());
+
+                            Toast.makeText(context, "size = "+response,
+                                    Toast.LENGTH_LONG).show();*/
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(context, error.toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(request);
     }
     public void deleteRoom(int roomId){
         String url="http://10.0.2.2:80/RoomDataBase/deleteRoomByEm.php";
