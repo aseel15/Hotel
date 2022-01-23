@@ -3,4 +3,5 @@
     <string name="hint_resource">Select Date</string>
     <string name="navigation_Drawer_Open">Open navigation drawer</string>
     <string name="navigation_Drawer_Close">Close navigation drawer</string>
+    <string name="spinner_rooms">Select Bed Type</string>
 </resources>

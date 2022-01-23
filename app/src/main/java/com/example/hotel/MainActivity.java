@@ -52,7 +52,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private RequestQueue queue;
     private RequestQueue queue1;
-    private static final String BASE_URL = "http://10.0.2.2:80/RoomDataBase/getRommsData.php";
+    private static final String BASE_URL = "http://10.0.2.2:80/FinalProject/getRommsData.php";
     private static final String string_Url="http://10.0.2.2:80/RoomDataBase/getReservedRoom.php";
     RecyclerView recycler;
     Spinner spinRoomType;

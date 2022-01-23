@@ -70,7 +70,7 @@ public class CaptionedImageAdapter extends RecyclerView.Adapter<CaptionedImageAd
         CardView cardView = holder.cardView;
         ImageView img = (ImageView) cardView.findViewById(R.id.image);
 
-        Glide.with(context).load("http://10.0.2.2:80/RoomDataBase/images/"+rooms.get(position).getImageURL()+".jpg").into(img);
+        Glide.with(context).load(rooms.get(position).getImageURL()).into(img);
 
         //Glide.with(context).load(getImage("@drawable/"+/*images[position])*/rooms.get(position).getImageURL())).into(img);
         TextView txtRoomType = (TextView)cardView.findViewById(R.id.roomTypeTxt);

@@ -14,6 +14,12 @@
         android:theme="@style/Theme.Hotel"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ImageHotelActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddRoom"
+            android:exported="true" />
+        <activity
             android:name=".APIActivity"
             android:exported="true" />
         <activity
@@ -28,7 +34,7 @@
         <activity
             android:name=".ServiceActivityCustomer"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DetailActivity"
             android:exported="false" />

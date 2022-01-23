@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/zumthor"
+    tools:context=".AddRoom">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="286dp"
+                android:layout_height="106dp"
+                android:layout_marginTop="52dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/image" />
+
+            <TextView
+                android:id="@+id/AddRoom"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:text="Add Room"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+            <LinearLayout
+                android:id="@+id/roomTypeAddedLO"
+                android:layout_width="234dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AddRoom" >
+
+                <TextView
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Room Type:"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+                <Spinner
+                    android:id="@+id/roomTypeAdded"
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:hint="Enter Room Type"
+                    android:entries="@array/roomTypeItems"
+                    android:textSize="20dp"
+                    android:textStyle="normal"
+                    />
+
+            </LinearLayout>
+
+
+
+
+         <!--convert to spinner-->
+            <LinearLayout
+                android:id="@+id/bedTypeAddedLO"
+                android:layout_width="234dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/roomTypeAddedLO" >
+
+                <TextView
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Bed Type:"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+                <Spinner
+                    android:id="@+id/bedTypeAdded"
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:hint="Enter Room Type"
+                    android:entries="@array/roomTypeItems"
+                    android:textSize="20dp"
+                    android:textStyle="normal"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/numOfBedAddedLO"
+                android:layout_width="234dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bedTypeAddedLO" >
+
+                <TextView
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Bed Num:"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+                <Spinner
+                    android:id="@+id/numOfBAdded"
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:hint="Enter Room Type"
+                    android:entries="@array/numOfBeds"
+                    android:textSize="20dp"
+                    android:textStyle="normal"
+                    />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/roomSizeAddedn"
+                android:layout_width="234dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:hint="Room Size"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numOfBedAddedLO"/>
+            <EditText
+                android:id="@+id/PriceAdded"
+                android:layout_width="234dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:hint="Enter Price"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/roomSizeAddedn" />
+
+            <Button
+                android:id="@+id/RoomAddButton"
+                android:layout_width="234dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/blue"
+                android:onClick="btnClkAddRoom"
+                android:text="Add new Room"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ImgLO" />
+
+
+            <LinearLayout
+                android:id="@+id/ImgLO"
+                android:layout_width="234dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/PriceAdded" >
+
+                <TextView
+                    android:layout_width="117dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Add Room Img:"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/zumthor"
+                    android:src="@drawable/ic_baseline_arrow_circle_right_24"
+                    android:onClick="btnImgOnClick"/>
+
+            </LinearLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

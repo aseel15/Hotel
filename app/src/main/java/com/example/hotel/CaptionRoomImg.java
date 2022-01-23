@@ -1,8 +1,14 @@
 package com.example.hotel;
 
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,14 +21,17 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class CaptionImageAPI extends RecyclerView.Adapter<CaptionImageAPI.ViewHolder> {
+public class CaptionRoomImg extends RecyclerView.Adapter<CaptionRoomImg.ViewHolder> {
     Context context;
     ArrayList<String>imageList;
     int size=0;
-    public CaptionImageAPI(Context context, ArrayList<String>imageList){
+    String url;
+    private OnItemListener mOnItemListener;
+    public CaptionRoomImg(Context context, ArrayList<String>imageList){
         this.context=context;
         this.imageList=imageList;
         size=imageList.size();
+
     }
 
 
@@ -33,7 +42,7 @@ public class CaptionImageAPI extends RecyclerView.Adapter<CaptionImageAPI.ViewHo
                 parent,
                 false);
 
-        return new ViewHolder(v);
+        return new ViewHolder(v, mOnItemListener);
     }
     public int getImage(String imageName) {
 
@@ -45,26 +54,44 @@ public class CaptionImageAPI extends RecyclerView.Adapter<CaptionImageAPI.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
-        //TextView textImg=(TextView)cardView.findViewById(R.id.imgUrlTry);
-        //textImg.setText(imageList.get(position));
+        TextView textImg=(TextView)cardView.findViewById(R.id.imgUrlTry);
         ImageView img = (ImageView) cardView.findViewById(R.id.imageAPI);
         Glide.with(context).load(imageList.get(position)).into(img);
-
-        // Glide.with(context).load("http://10.0.2.2:80/RoomDataBase/images/"+rooms.get(position).getImageURL()+".jpg").into(img);
-
     }
+
+
 
     @Override
     public int getItemCount() {
         return imageList.size();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder  {
         private CardView cardView;
-        public ViewHolder(CardView cardView){
+        OnItemListener mOnItemListener;
+        public ViewHolder(CardView cardView, OnItemListener onItemListener){
             super(cardView);
             this.cardView = cardView;
+            mOnItemListener = onItemListener;
+
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(onItemListener!=null&&getAbsoluteAdapterPosition()!=RecyclerView.NO_POSITION){
+                        onItemListener.onItemClick(getAbsoluteAdapterPosition());
+                    }
+
+                }
+            });
+
 
         }
 
+
+    }
+    public interface OnItemListener{
+        void onItemClick(int position);
+    }
+    public void OnItemListener (OnItemListener listener){
+        this.mOnItemListener=listener;
     }
 }
